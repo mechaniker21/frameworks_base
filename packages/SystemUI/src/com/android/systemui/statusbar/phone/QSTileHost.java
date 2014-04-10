@@ -51,6 +51,7 @@ import com.android.systemui.qs.tiles.CustomQSTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.EditTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
+import com.android.systemui.qs.tiles.FloatingWindowsTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.IntentTile;
@@ -381,6 +382,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("battery_saver")) return new BatterySaverTile(this);
         else if (tileSpec.equals("caffeine")) return new CaffeineTile(this);
         else if (tileSpec.equals("navbar")) return new NavBarTile(this);
+        else if (tileSpec.equals("float_mode")) return new FloatingWindowsTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -478,6 +480,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("battery_saver")) return R.string.quick_settings_battery_saver_label;
         else if (spec.equals("caffeine")) return R.string.quick_settings_caffeine_label;
         else if (spec.equals("navbar")) return R.string.quick_settings_navigation_bar;
+        else if (spec.equals("float_mode")) return R.string.recent_float_mode_title;
         return 0;
     }
 
@@ -513,6 +516,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("battery_saver")) return R.drawable.ic_qs_battery_saver_on;
         else if (spec.equals("caffeine")) return R.drawable.ic_qs_caffeine_on;
         else if (spec.equals("navbar")) return R.drawable.ic_qs_smartbar;
+        else if (spec.equals("float_mode")) return R.drawable.ic_qs_floating_on;
         return 0;
     }
 
