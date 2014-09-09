@@ -52,4 +52,8 @@
     <dimen name="folder_width">290dp</dimen>
     <dimen name="folder_height">480dp</dimen>
     <dimen name="setup_sidebar_width">90dp</dimen>
+
+    <!-- The task item height in task list. -->
+    <dimen name="task_manager_item_height">40dip</dimen>
+    
 </resources>
