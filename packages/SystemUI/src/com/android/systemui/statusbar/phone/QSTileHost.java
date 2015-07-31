@@ -55,6 +55,7 @@ import com.android.systemui.qs.tiles.FloatingWindowsTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.IntentTile;
+import com.android.systemui.qs.tiles.KernelAdiutorTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
 import com.android.systemui.qs.tiles.NavBarTile;
@@ -385,6 +386,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("navbar")) return new NavBarTile(this);
         else if (tileSpec.equals("float_mode")) return new FloatingWindowsTile(this);
         else if (tileSpec.equals("themes")) return new ThemesTile(this);
+        else if (tileSpec.equals("kernel")) return new KernelAdiutorTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else if (TextUtils.split(tileSpec, "\\|").length == 3) {
             /** restores placeholder for
@@ -489,6 +491,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("navbar")) return R.string.quick_settings_navigation_bar;
         else if (spec.equals("float_mode")) return R.string.recent_float_mode_title;
         else if (spec.equals("themes")) return R.string.quick_settings_themes;
+        else if (spec.equals("kernel")) return R.string.quick_settings_kernel_adiutor_label;
         return 0;
     }
 
@@ -526,6 +529,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("navbar")) return R.drawable.ic_qs_smartbar;
         else if (spec.equals("float_mode")) return R.drawable.ic_qs_floating_on;
         else if (spec.equals("themes")) return R.drawable.ic_qs_themes_on;
+        else if (spec.equals("kernel")) return R.drawable.ic_qs_kernel;
         return 0;
     }
 
