@@ -2587,4 +2587,7 @@
     <!-- Older rotation sensors are not setting event.timestamp correctly. Setting to
          true will use SystemClock.elapsedRealtimeNanos() to set timestamp. -->
     <bool name="config_useSystemClockforRotationSensor">false</bool>
+
+    <!-- Use alternative way to blur lockscreen -->
+    <bool name="config_use_stackblur">false</bool>
 </resources>
