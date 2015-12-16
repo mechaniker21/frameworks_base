@@ -179,7 +179,7 @@ static jint nativeGetFeature(JNIEnv *env, jclass clazz, jint featureId) {
 
 // ----------------------------------------------------------------------------
 
-static JNINativeMethod gPowerManagerServiceMethods[] = {
+static const JNINativeMethod gPowerManagerServiceMethods[] = {
     /* name, signature, funcPtr */
     { "nativeInit", "()V",
             (void*) nativeInit },

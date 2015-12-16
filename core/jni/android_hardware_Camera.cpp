@@ -1079,7 +1079,7 @@ static void android_hardware_Camera_sendVendorCommand(JNIEnv *env, jobject thiz,
 
 //-------------------------------------------------
 
-static JNINativeMethod camMethods[] = {
+static const JNINativeMethod camMethods[] = {
   { "getNumberOfCameras",
     "()I",
     (void *)android_hardware_Camera_getNumberOfCameras },

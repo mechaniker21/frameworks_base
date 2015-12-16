@@ -1225,7 +1225,7 @@ android_media_MediaPlayer_resume(JNIEnv *env, jobject thiz)
 
 // ----------------------------------------------------------------------------
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
     {
         "nativeSetDataSource",
         "(Landroid/os/IBinder;Ljava/lang/String;[Ljava/lang/String;"
