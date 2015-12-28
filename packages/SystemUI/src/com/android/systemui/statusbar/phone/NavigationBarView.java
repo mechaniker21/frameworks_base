@@ -15,13 +15,15 @@
  */
 
 package com.android.systemui.statusbar.phone;
-
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.animation.LayoutTransition;
 import android.animation.LayoutTransition.TransitionListener;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.app.ActivityManagerNative;
+import android.app.KeyguardManager;
 import android.app.StatusBarManager;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
@@ -56,9 +58,6 @@ import android.view.ViewGroup;
 import android.view.ViewRootImpl;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -118,6 +117,9 @@ public class NavigationBarView extends LinearLayout {
     private boolean mDimNavButtonsTouchAnywhere;
     private PowerManager mPowerManager;
     private boolean mIsPowerSaveMode = false;
+    private ObjectAnimator mFadeOut;
+    private boolean mIsExpandedDesktopOn;
+    private KeyguardManager mKgm;
     private boolean mIsHandlerCallbackActive = false;
 
     private NavigationBarViewTaskSwitchHelper mTaskSwitchHelper;
@@ -257,7 +259,8 @@ public class NavigationBarView extends LinearLayout {
                 mIsAnimating = false;
                 resetDim(navButtons);
             }
-            if (mDimNavButtons) {
+            if (mDimNavButtons && !mIsExpandedDesktopOn &&
+                    !(mKgm != null ? mKgm.isDeviceLocked() : false)) {
                 mHandler.postDelayed(mNavButtonDimmer, mDimNavButtonsTimeout);
                 mIsHandlerCallbackActive = true;
             }
@@ -269,7 +272,9 @@ public class NavigationBarView extends LinearLayout {
             navButtons = getNavButtons();
         }
         if (navButtons != null) {
-            navButtons.clearAnimation();
+            if (mFadeOut != null) {
+                mFadeOut.cancel();
+            }
             mIsDim = false;
             navButtons.setAlpha(mOriginalAlpha);
         }
@@ -350,6 +355,9 @@ public class NavigationBarView extends LinearLayout {
 
         mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         mIsPowerSaveMode = mPowerManager.isPowerSaveMode();
+
+        mKgm = (KeyguardManager)
+                mContext.getSystemService(Context.KEYGUARD_SERVICE);
     }
 
     @Override
@@ -1096,9 +1104,10 @@ public class NavigationBarView extends LinearLayout {
                     Settings.System.DIM_NAV_BUTTONS_ANIMATE_DURATION), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DIM_NAV_BUTTONS_TOUCH_ANYWHERE), false, this);
-            resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.DOUBLE_TAP_SLEEP_NAVBAR),
-                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DOUBLE_TAP_SLEEP_NAVBAR), false, this);
+            resolver.registerContentObserver(Settings.Global.getUriFor(
+                    Settings.Global.POLICY_CONTROL), false, this);
 
             // intialize mModlockDisabled
             onChange(false);
@@ -1137,6 +1146,10 @@ public class NavigationBarView extends LinearLayout {
             mDoubleTapToSleep = (Settings.System.getIntForUser(resolver,
                     Settings.System.DOUBLE_TAP_SLEEP_NAVBAR, 0,
                     UserHandle.USER_CURRENT) == 1);
+            String expDeskString = Settings.Global.getStringForUser(resolver,
+                    Settings.Global.POLICY_CONTROL, UserHandle.USER_CURRENT);
+            mIsExpandedDesktopOn = (expDeskString != null ?
+                    expDeskString.equals("immersive.full=*") : false);
             // reset saved side button visibilities
             for (int i = 0; i < mSideButtonVisibilities.length; i++) {
                 for (int j = 0; j < mSideButtonVisibilities[i].length; j++) {
@@ -1144,9 +1157,8 @@ public class NavigationBarView extends LinearLayout {
                 }
             }
             setNavigationIconHints(mNavigationIconHints, true);
+
             onNavButtonTouched();
-            mDoubleTapToSleep = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.DOUBLE_TAP_SLEEP_NAVBAR, 0, UserHandle.USER_CURRENT) != 0;
         }
     }
 
@@ -1158,29 +1170,35 @@ public class NavigationBarView extends LinearLayout {
             if (navButtons != null && !mIsDim) {
                 mIsDim = true;
                 if (mDimNavButtonsAnimate) {
-                    AlphaAnimation fadeOut =
-                            new AlphaAnimation(mOriginalAlpha, mDimNavButtonsAlpha);
-                    fadeOut.setInterpolator(new AccelerateInterpolator());
-                    fadeOut.setDuration(mDimNavButtonsAnimateDuration);
-                    fadeOut.setAnimationListener(new Animation.AnimationListener() {
+                    mFadeOut = ObjectAnimator.ofFloat(
+                            navButtons, "alpha", mOriginalAlpha, mDimNavButtonsAlpha);
+                    mFadeOut.setInterpolator(new AccelerateInterpolator());
+                    mFadeOut.setDuration(mDimNavButtonsAnimateDuration);
+                    mFadeOut.setFrameDelay(100);
+                    mFadeOut.addListener(new Animator.AnimatorListener() {
                         @Override
-                        public void onAnimationEnd(Animation animation) {
+                        public void onAnimationEnd(Animator animation) {
                             if (mIsAnimating) {
                                 mIsAnimating = false;
                             }
+                            mFadeOut.removeAllListeners();
                         }
 
                         @Override
-                        public void onAnimationRepeat(Animation animation) {
+                        public void onAnimationCancel(Animator animation) {
+                            mFadeOut.removeAllListeners();
                         }
 
                         @Override
-                        public void onAnimationStart(Animation animation) {
+                        public void onAnimationRepeat(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationStart(Animator animation) {
                             mIsAnimating = true;
                         }
                     });
-                    fadeOut.setFillAfter(true);
-                    navButtons.startAnimation(fadeOut);
+                    mFadeOut.start();
                 } else {
                     navButtons.setAlpha(mDimNavButtonsAlpha);
                 }
