@@ -65,13 +65,10 @@ public class KeyguardStatusView extends GridLayout implements
     private TextView mOwnerInfo;
     private View mWeatherView;
     private TextView mWeatherCity;
-    private TextView mWeatherWind;
     private ImageView mWeatherConditionImage;
     private Drawable mWeatherConditionDrawable;
     private TextView mWeatherCurrentTemp;
-    private TextView mWeatherHumidity;
     private TextView mWeatherConditionText;
-    private TextView mWeatherTimestamp;
     private boolean mShowWeather;
     private int mIconNameValue = 0;
     private WeatherController mWeatherController;
@@ -151,12 +148,9 @@ public class KeyguardStatusView extends GridLayout implements
         mOwnerInfo = (TextView) findViewById(R.id.owner_info);
         mWeatherView = findViewById(R.id.keyguard_weather_view);
         mWeatherCity = (TextView) findViewById(R.id.city);
-        mWeatherWind = (TextView) findViewById(R.id.wind);
         mWeatherConditionImage = (ImageView) findViewById(R.id.weather_image);
         mWeatherCurrentTemp = (TextView) findViewById(R.id.current_temp);
-        mWeatherHumidity = (TextView) findViewById(R.id.humidity);
         mWeatherConditionText = (TextView) findViewById(R.id.condition);
-        mWeatherTimestamp = (TextView) findViewById(R.id.timestamp);
 
         boolean shouldMarquee = KeyguardUpdateMonitor.getInstance(mContext).isDeviceInteractive();
         setEnableMarquee(shouldMarquee);
@@ -266,12 +260,9 @@ public class KeyguardStatusView extends GridLayout implements
     public void onWeatherChanged(WeatherController.WeatherInfo info) {
         if (info.temp == null || info.condition == null) {
             mWeatherCity.setText("--");
-            mWeatherWind.setText(null);
             mWeatherConditionDrawable = null;
             mWeatherCurrentTemp.setText(null);
-            mWeatherHumidity.setText(null);
             mWeatherConditionText.setText(null);
-            mWeatherTimestamp.setText(null);
             mWeatherView.setVisibility(View.GONE);
             updateSettings(true);
         } else {
@@ -280,36 +271,17 @@ public class KeyguardStatusView extends GridLayout implements
             if (mWeatherCity != null) {
                 mWeatherCity.setText(info.city);
             }
-            if (mWeatherWind != null) {
-                mWeatherWind.setText(info.wind);
-            }
             if (mWeatherCurrentTemp != null) {
                 mWeatherCurrentTemp.setText(info.temp);
             }
-            if (mWeatherHumidity != null) {
-                mWeatherHumidity.setText(info.humidity);
-            }
             if (mWeatherConditionText != null) {
                 mWeatherConditionText.setText(info.condition);
-            }
-            if (mWeatherTimestamp != null) {
-                mWeatherTimestamp.setText(getCurrentDate());
             }
             if (mWeatherView != null) {
                 mWeatherView.setVisibility(mShowWeather ? View.VISIBLE : View.GONE);
             }
             updateSettings(false);
         }
-    }
-
-    private String getCurrentDate() {
-        Date now = new Date();
-        long nowMillis = now.getTime();
-        StringBuilder sb = new StringBuilder();
-        sb.append(DateFormat.format("E", nowMillis));
-        sb.append(" ");
-        sb.append(DateFormat.getTimeFormat(getContext()).format(nowMillis));
-        return sb.toString();
     }
 
     private void updateSettings(boolean forceHide) {
@@ -324,8 +296,6 @@ public class KeyguardStatusView extends GridLayout implements
                 Settings.System.HIDE_LOCKSCREEN_ALARM, 1, UserHandle.USER_CURRENT) == 1;
         boolean showLocation = Settings.System.getInt(resolver,
                     Settings.System.LOCK_SCREEN_SHOW_WEATHER_LOCATION, 1) == 1;
-        boolean showTimestamp = Settings.System.getInt(resolver,
-                    Settings.System.LOCK_SCREEN_SHOW_WEATHER_TIMESTAMP, 1) == 1;
         int iconNameValue = Settings.System.getInt(resolver,
                 Settings.System.LOCK_SCREEN_WEATHER_CONDITION_ICON, 0);
         boolean colorizeAllIcons = Settings.System.getInt(resolver,
@@ -349,9 +319,6 @@ public class KeyguardStatusView extends GridLayout implements
         if (mWeatherCity != null) {
             mWeatherCity.setVisibility(showLocation ? View.VISIBLE : View.INVISIBLE);
         }
-        if (mWeatherTimestamp != null) {
-            mWeatherTimestamp.setVisibility(showTimestamp ? View.VISIBLE : View.GONE);
-        }
         if (mWeatherCity != null) {
             mWeatherCity.setTextColor(primaryTextColor);
         }
@@ -360,15 +327,6 @@ public class KeyguardStatusView extends GridLayout implements
         }
         if (mWeatherCurrentTemp != null) {
             mWeatherCurrentTemp.setTextColor(secondaryTextColor);
-        }
-        if (mWeatherHumidity != null) {
-            mWeatherHumidity.setTextColor(secondaryTextColor);
-        }
-        if (mWeatherWind != null) {
-            mWeatherWind.setTextColor(secondaryTextColor);
-        }
-        if (mWeatherTimestamp != null) {
-            mWeatherTimestamp.setTextColor(secondaryTextColor);
         }
 
         mAlarmStatusView = (TextView) findViewById(R.id.alarm_status);
