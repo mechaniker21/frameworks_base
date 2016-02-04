@@ -1367,6 +1367,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
                 @Override
                 public void setEditing(final boolean editing) {
+                    if (mState != StatusBarState.SHADE) {
+                        return;
+                    }
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -1383,6 +1386,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
                 @Override
                 public void goToSettingsPage() {
+                    if (mState != StatusBarState.SHADE) {
+                        return;
+                    }
                     setEditing(true);
                     mHandler.postDelayed(new Runnable() {
                         @Override
@@ -1407,9 +1413,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             } catch (RemoteException e) {
                                 Log.e(TAG, "Unable to unregister custom tile listener", e);
                             }
-
-                            // clear out old tile states and views
-                            mQSPanel.setTiles(new ArrayList<QSTile<?>>());
 
                             mQSTileHost.resetTiles();
 
@@ -3959,7 +3962,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
 
         mQSPanel.getHost().setCustomTileListenerService(null);
-        mQSPanel.setTiles(new ArrayList<QSTile<?>>());
+        mQSPanel.setListening(false);
 
         makeStatusBarView();
         repositionNavigationBar();
