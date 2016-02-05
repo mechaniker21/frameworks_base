@@ -68,6 +68,7 @@ import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
 import com.android.systemui.qs.tiles.SyncTile;
+import com.android.systemui.qs.tiles.ThemesTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
 import com.android.systemui.qs.tiles.VolumeTile;
 import com.android.systemui.qs.tiles.WifiTile;
@@ -383,6 +384,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("caffeine")) return new CaffeineTile(this);
         else if (tileSpec.equals("navbar")) return new NavBarTile(this);
         else if (tileSpec.equals("float_mode")) return new FloatingWindowsTile(this);
+        else if (tileSpec.equals("themes")) return new ThemesTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else if (TextUtils.split(tileSpec, "\\|").length == 3) {
             /** restores placeholder for
@@ -486,6 +488,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("caffeine")) return R.string.quick_settings_caffeine_label;
         else if (spec.equals("navbar")) return R.string.quick_settings_navigation_bar;
         else if (spec.equals("float_mode")) return R.string.recent_float_mode_title;
+        else if (spec.equals("themes")) return R.string.quick_settings_themes;
         return 0;
     }
 
@@ -522,6 +525,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("caffeine")) return R.drawable.ic_qs_caffeine_on;
         else if (spec.equals("navbar")) return R.drawable.ic_qs_smartbar;
         else if (spec.equals("float_mode")) return R.drawable.ic_qs_floating_on;
+        else if (spec.equals("themes")) return R.drawable.ic_qs_themes_on;
         return 0;
     }
 
