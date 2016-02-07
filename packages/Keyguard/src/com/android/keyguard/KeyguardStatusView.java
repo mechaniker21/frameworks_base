@@ -194,7 +194,7 @@ public class KeyguardStatusView extends GridLayout implements
 
         refreshTime();
         refreshAlarmStatus(nextAlarm);
-        updateWeatherSettings(false);
+        updateSettings(false);
     }
 
     void refreshAlarmStatus(AlarmManager.AlarmClockInfo nextAlarm) {
@@ -235,7 +235,7 @@ public class KeyguardStatusView extends GridLayout implements
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         KeyguardUpdateMonitor.getInstance(mContext).registerCallback(mInfoCallback);
-        updateWeatherSettings(false);
+        updateSettings(false);
         mWeatherController.addCallback(this);
     }
 
@@ -273,7 +273,7 @@ public class KeyguardStatusView extends GridLayout implements
             mWeatherConditionText.setText(null);
             mWeatherTimestamp.setText(null);
             mWeatherView.setVisibility(View.GONE);
-            updateWeatherSettings(true);
+            updateSettings(true);
         } else {
             mWeatherCity.setText(info.city);
             mWeatherWind.setText(info.wind);
@@ -283,7 +283,7 @@ public class KeyguardStatusView extends GridLayout implements
             mWeatherConditionText.setText(info.condition);
             mWeatherTimestamp.setText(getCurrentDate());
             mWeatherView.setVisibility(mShowWeather ? View.VISIBLE : View.GONE);
-            updateWeatherSettings(false);
+            updateSettings(false);
         }
     }
 
@@ -297,16 +297,22 @@ public class KeyguardStatusView extends GridLayout implements
         return sb.toString();
     }
 
-    private void updateWeatherSettings(boolean forceHide) {
+    private void updateSettings(boolean forceHide) {
         final ContentResolver resolver = getContext().getContentResolver();
         final Resources res = getContext().getResources();
+        AlarmManager.AlarmClockInfo nextAlarm =
+                mAlarmManager.getNextAlarmClock(UserHandle.USER_CURRENT);
 
         mShowWeather = Settings.System.getInt(resolver,
                 Settings.System.LOCK_SCREEN_SHOW_WEATHER, 0) == 1;
+        boolean showAlarm = Settings.System.getIntForUser(resolver,
+                Settings.System.HIDE_LOCKSCREEN_ALARM, 1, UserHandle.USER_CURRENT) == 1;
         boolean showLocation = Settings.System.getInt(resolver,
                     Settings.System.LOCK_SCREEN_SHOW_WEATHER_LOCATION, 1) == 1;
         boolean showTimestamp = Settings.System.getInt(resolver,
                     Settings.System.LOCK_SCREEN_SHOW_WEATHER_TIMESTAMP, 1) == 1;
+        int lockClockFont = Settings.System.getIntForUser(resolver,
+                Settings.System.LOCK_CLOCK_FONTS, 4, UserHandle.USER_CURRENT);
         int iconNameValue = Settings.System.getInt(resolver,
                 Settings.System.LOCK_SCREEN_WEATHER_CONDITION_ICON, 0);
         boolean colorizeAllIcons = Settings.System.getInt(resolver,
@@ -334,6 +340,14 @@ public class KeyguardStatusView extends GridLayout implements
         mWeatherHumidity.setTextColor(secondaryTextColor);
         mWeatherWind.setTextColor(secondaryTextColor);
         mWeatherTimestamp.setTextColor(secondaryTextColor);
+	
+        if (showAlarm && nextAlarm != null) {
+            mAlarmStatusView = (TextView) findViewById(R.id.alarm_status);
+            mAlarmStatusView.setVisibility(View.VISIBLE);
+        } else {
+            mAlarmStatusView = (TextView) findViewById(R.id.alarm_status);
+            mAlarmStatusView.setVisibility(View.GONE);
+        }
 
         if (mIconNameValue != iconNameValue) {
             mIconNameValue = iconNameValue;
@@ -362,7 +376,10 @@ public class KeyguardStatusView extends GridLayout implements
         static void update(Context context, boolean hasAlarm) {
             final Locale locale = Locale.getDefault();
             final Resources res = context.getResources();
-            final String dateViewSkel = res.getString(hasAlarm
+            final ContentResolver resolver = context.getContentResolver();
+            final boolean showAlarm = Settings.System.getIntForUser(resolver,
+                    Settings.System.HIDE_LOCKSCREEN_ALARM, 1, UserHandle.USER_CURRENT) == 1;
+            final String dateViewSkel = res.getString(hasAlarm && showAlarm
                     ? R.string.abbrev_wday_month_day_no_year_alarm
                     : R.string.abbrev_wday_month_day_no_year);
             final String clockView12Skel = res.getString(R.string.clock_12hr_format);
