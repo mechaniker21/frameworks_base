@@ -135,8 +135,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private int mClockCollapsedSize;
     private int mClockExpandedSize;
 
-    protected Vibrator mVibrator;
-
     // Task manager
     private boolean mShowTaskManager;
     private View mTaskManagerButton;
