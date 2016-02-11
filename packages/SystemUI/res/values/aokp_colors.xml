@@ -33,4 +33,8 @@
     <color name="sidebar_item_text_color">#ffffffff</color>
     <!-- App sidebar item text shadow color -->
     <color name="sidebar_item_text_shadow_color">#ff000000</color>
+
+    <!-- Color for the RAM bar text in the recent view -->
+    <color name="ram_bar_text">#FFFFFFFF</color>
+
 </resources>
