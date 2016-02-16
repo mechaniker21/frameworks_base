@@ -3817,6 +3817,13 @@ public final class Settings {
         * @hide
         */
         public static final String QS_USE_FOUR_COLUMNS = "qs_use_four_columns";
+
+        /**
+         * Number of columns to display on the quick settings panel
+         * Default is 3
+         * @hide
+         */
+        public static final String QS_NUM_TILE_COLUMNS = "sysui_qs_num_tile_columns";
         
         /**
          * Hide lockscreen alarm
