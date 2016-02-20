@@ -1130,7 +1130,8 @@ public class NotificationPanelView extends PanelView implements
                 mAfforanceHelper.updatePreviews();
             }
         }
-        if (keyguardShowing) {
+        if (statusBarState == StatusBarState.KEYGUARD ||
+                statusBarState == StatusBarState.SHADE_LOCKED) {
             updateDozingVisibilities(false /* animate */);
             if (mThirdPartyKeyguardViewComponent != null) {
                 if (mKeyguardExternalView == null) {
@@ -1251,7 +1252,8 @@ public class NotificationPanelView extends PanelView implements
                         @Override
                         public void run() {
                             mStatusBar.showKeyguard();
-                            mStatusBar.startActivity(intent, true);
+                            mStatusBar.startActivityDismissingKeyguard(intent, false, true, true,
+                                    null);
                         }
                     });
                 }
