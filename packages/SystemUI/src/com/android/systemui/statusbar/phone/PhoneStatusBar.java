@@ -554,9 +554,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     false, this, UserHandle.USER_ALL); 
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ENABLE_TASK_MANAGER),
-	            false, this, UserHandle.USER_ALL);
+	                false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(                    
-	            Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR),
+	                Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR),
                     false, this, UserHandle.USER_ALL);
             update();
         }
