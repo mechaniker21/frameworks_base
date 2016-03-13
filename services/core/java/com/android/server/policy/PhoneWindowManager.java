@@ -7532,7 +7532,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     mBootMsgDialog.setMessage(Html.fromHtml(msg +
                                                             "<br><b><font color=\"#" + randomColor + "\">" +
                                                             currentPackageName +
-                                                            "</font></b>"));
+                                                            "</font><br><br>Powered by Emotroid</b>"));
                 }
                 else {
                     mBootMsgDialog.setMessage("Powered By Emotroid Team\n\n" + msg   
