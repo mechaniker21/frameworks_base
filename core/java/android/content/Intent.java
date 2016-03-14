@@ -3175,7 +3175,6 @@ public class Intent implements Parcelable, Cloneable {
      */
     public static final int EXTRA_THERMAL_STATE_EXCEEDED = 2;
 
->>>>>>> android-6.0.1_r22
 
     // ---------------------------------------------------------------------
     // ---------------------------------------------------------------------
