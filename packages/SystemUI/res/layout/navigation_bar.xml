@@ -56,8 +56,8 @@
             android:orientation="horizontal"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:id="@+id/container"
-	    android:animateLayoutChanges="true"
+            android:id="@+id/nav_buttons"
+            android:animateLayoutChanges="true"
             >
 	  <!-- navigation controls -->
             <View
