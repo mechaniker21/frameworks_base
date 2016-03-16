@@ -59,7 +59,8 @@
     <string name="message_keep_one_launcher">Should keep at lease one home activity!</string>
 
     <!-- NavBar tile -->
-    <string name="quick_settings_navbar_title">NavBar</string>
-    <string name="quick_settings_navbar_on">NavBar on</string>
-    <string name="quick_settings_navbar_off">NavBar off</string>
+    <string name="quick_settings_navigation_bar">Navigation bar</string>
+    <string name="quick_settings_smartbar_off">Navigation bar off</string>
+    <string name="quick_settings_smartbar">SmartBar</string>
+    <string name="quick_settings_fling">Fling gesture</string>
 </resources>
