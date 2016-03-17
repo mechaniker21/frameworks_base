@@ -7457,7 +7457,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
                 else {
                     mBootMsgDialog.setMessage("Powered By Emotroid Team\n\n" + msg   
-                    + "\n\nAOKP Marshmallow unofficial build");
+                    + "\n\Emotion Marshmallow official build");
                 }
             }
         });
