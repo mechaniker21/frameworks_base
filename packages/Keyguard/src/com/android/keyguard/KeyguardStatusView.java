@@ -311,8 +311,6 @@ public class KeyguardStatusView extends GridLayout implements
                     Settings.System.LOCK_SCREEN_SHOW_WEATHER_LOCATION, 1) == 1;
         boolean showTimestamp = Settings.System.getInt(resolver,
                     Settings.System.LOCK_SCREEN_SHOW_WEATHER_TIMESTAMP, 1) == 1;
-        int lockClockFont = Settings.System.getIntForUser(resolver,
-                Settings.System.LOCK_CLOCK_FONTS, 4, UserHandle.USER_CURRENT);
         int iconNameValue = Settings.System.getInt(resolver,
                 Settings.System.LOCK_SCREEN_WEATHER_CONDITION_ICON, 0);
         boolean colorizeAllIcons = Settings.System.getInt(resolver,
