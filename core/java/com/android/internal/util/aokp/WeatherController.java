@@ -21,7 +21,6 @@ import android.graphics.drawable.Drawable;
 public interface WeatherController {
     void addCallback(Callback callback);
     void removeCallback(Callback callback);
-    void updateWeather();
     WeatherInfo getWeatherInfo();
 
     public interface Callback {

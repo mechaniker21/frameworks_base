@@ -16,40 +16,41 @@
 
 package com.android.internal.util.aokp;
 
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.provider.Settings;
 import android.util.Log;
+import cyanogenmod.providers.WeatherContract;
+import cyanogenmod.weather.util.WeatherUtils;
 
 import java.util.ArrayList;
+
+import static cyanogenmod.providers.WeatherContract.WeatherColumns.CURRENT_CITY;
+import static cyanogenmod.providers.WeatherContract.WeatherColumns.CURRENT_CONDITION;
+import static cyanogenmod.providers.WeatherContract.WeatherColumns.CURRENT_TEMPERATURE;
+import static cyanogenmod.providers.WeatherContract.WeatherColumns.CURRENT_TEMPERATURE_UNIT;
 
 public class WeatherControllerImpl implements WeatherController {
 
     private static final String TAG = WeatherController.class.getSimpleName();
     private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
+    private WeatherContentObserver mWeatherContentObserver;
+    private Handler mHandler;
 
     public static final ComponentName COMPONENT_WEATHER_FORECAST = new ComponentName(
             "com.cyanogenmod.lockclock", "com.cyanogenmod.lockclock.weather.ForecastActivity");
-    public static final String ACTION_UPDATE_FINISHED
-            = "com.cyanogenmod.lockclock.action.WEATHER_UPDATE_FINISHED";
-    public static final String EXTRA_UPDATE_CANCELLED = "update_cancelled";
     public static final String ACTION_FORCE_WEATHER_UPDATE
             = "com.cyanogenmod.lockclock.action.FORCE_WEATHER_UPDATE";
-    public static final Uri CURRENT_WEATHER_URI
-            = Uri.parse("content://com.cyanogenmod.lockclock.weather.provider/weather/current");
-    public static final String[] WEATHER_PROJECTION = new String[]{
-            "city",
-            "condition",
-            "condition_code",
-            "temperature"
+    private static final String[] WEATHER_PROJECTION = new String[]{
+            CURRENT_CITY,
+            CURRENT_CONDITION,
+            CURRENT_CONDITION_CODE,
+            CURRENT_TEMPERATURE,
+            CURRENT_TEMPERATURE_UNIT
     };
     public static final String LOCK_CLOCK_PACKAGE_NAME = "com.cyanogenmod.lockclock";
 
@@ -57,7 +58,6 @@ public class WeatherControllerImpl implements WeatherController {
     private static final int WEATHER_ICON_COLORED = 1;
 
     private final ArrayList<Callback> mCallbacks = new ArrayList<Callback>();
-    private final Receiver mReceiver = new Receiver();
     private final Context mContext;
 
     private WeatherInfo mCachedInfo = new WeatherInfo();
@@ -65,10 +65,12 @@ public class WeatherControllerImpl implements WeatherController {
     public WeatherControllerImpl(Context context) {
         mContext = context;
                 mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        mHandler = new Handler();
+        mWeatherContentObserver = new WeatherContentObserver(mHandler);
+        mContext.getContentResolver().registerContentObserver(
+                WeatherContract.WeatherColumns.CURRENT_WEATHER_URI,
+                true, mWeatherContentObserver);
         queryWeather();
-        final IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_UPDATE_FINISHED);
-        mContext.registerReceiver(mReceiver, filter);
     }
 
     public void addCallback(Callback callback) {
@@ -113,10 +115,13 @@ public class WeatherControllerImpl implements WeatherController {
     }
 
     private void queryWeather() {
-        Cursor c = mContext.getContentResolver().query(CURRENT_WEATHER_URI, WEATHER_PROJECTION,
+        Cursor c = mContext.getContentResolver().query(
+                WeatherContract.WeatherColumns.CURRENT_WEATHER_URI, WEATHER_PROJECTION,
                 null, null, null);
         if (c == null) {
             if(DEBUG) Log.e(TAG, "cursor was null for temperature, forcing weather update");
+            //LockClock keeps track of the user settings (temp unit, search by geo location/city)
+            //so we delegate the responsibility of handling a weather update to LockClock
             mContext.sendBroadcast(new Intent(ACTION_FORCE_WEATHER_UPDATE));
         } else {
             try {
@@ -125,7 +130,7 @@ public class WeatherControllerImpl implements WeatherController {
                 mCachedInfo.condition = c.getString(1);
                 mCachedInfo.conditionCode = c.getInt(2);
                 mCachedInfo.conditionDrawable = getIcon(mCachedInfo.conditionCode);
-                mCachedInfo.temp = c.getString(3);
+                mCachedInfo.temp = WeatherUtils.formatTemperature(c.getDouble(3), c.getInt(4));
             } finally {
                 c.close();
             }
@@ -138,24 +143,18 @@ public class WeatherControllerImpl implements WeatherController {
         }
     }
 
-    private final class Receiver extends BroadcastReceiver {
+    private final class WeatherContentObserver extends ContentObserver {
+
+        public WeatherContentObserver(Handler handler) {
+            super(handler);
+        }
+
         @Override
-        public void onReceive(Context context, Intent intent) {
-            if (DEBUG) Log.d(TAG, "onReceive " + intent.getAction());
-            if (intent.hasExtra(EXTRA_UPDATE_CANCELLED)) {
-                if (intent.getBooleanExtra(EXTRA_UPDATE_CANCELLED, false)) {
-                    // no update
-                    return;
-                }
-            }
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            if (DEBUG) Log.d(TAG, "Received onChange notification");
             queryWeather();
             fireCallback();
         }
-    }
-
-    @Override
-    public void updateWeather() {
-        queryWeather();
-        fireCallback();
     }
 }
