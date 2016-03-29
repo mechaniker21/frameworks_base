@@ -3813,6 +3813,12 @@ public final class Settings {
         public static final String GESTURE_ANYWHERE_SHOW_TRIGGER = "gesture_anywhere_show_trigger";
 
         /**
+        * Whether to show four tiles per row.
+        * @hide
+        */
+        public static final String QS_USE_FOUR_COLUMNS = "qs_use_four_columns";
+        
+        /**
          * Hide lockscreen alarm
          * @hide
          */
