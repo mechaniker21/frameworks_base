@@ -423,6 +423,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 mQsPanelCallback.onShowingDetail(null);
             }
             updateEverything();
+            mPowerManager.cpuBoost(2500000);
         }
     }
 
@@ -436,7 +437,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         updateAvatarScale();
         updateClockLp();
         requestCaptureValues();
-        mPowerManager.cpuBoost(2500000);
 	     	
     }
 
