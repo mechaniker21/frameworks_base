@@ -81,6 +81,8 @@ import cyanogenmod.providers.CMSettings;
 
 import java.util.List;
 
+import org.cyanogenmod.internal.util.CmLockPatternUtils;
+
 public class NotificationPanelView extends PanelView implements
         ExpandableView.OnHeightChangedListener, ObservableScrollView.Listener,
         View.OnClickListener, NotificationStackScrollLayout.OnOverscrollTopChangedListener,
@@ -224,6 +226,8 @@ public class NotificationPanelView extends PanelView implements
 
     private boolean mStatusBarLockedOnSecureKeyguard;
 
+    private CmLockPatternUtils mLockPatternUtils;
+
     private Runnable mHeadsUpExistenceChangedRunnable = new Runnable() {
         @Override
         public void run() {
@@ -319,6 +323,8 @@ public class NotificationPanelView extends PanelView implements
             }
         });
         setQSBackgroundAlpha();
+
+        mLockPatternUtils = new CmLockPatternUtils(getContext());
     }
 
     @Override
