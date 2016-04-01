@@ -1333,4 +1333,6 @@ public interface WindowManagerPolicy {
      * @hide
      */
     public void toggleGlobalMenu();
+
+    public void setLiveLockscreenEdgeDetector(boolean enable);
 }
