@@ -477,7 +477,6 @@ public class NotificationPanelView extends PanelView implements
                 // Ensure we collapse and clear fade
                 if (action == MotionEvent.ACTION_UP ||
                         action == MotionEvent.ACTION_CANCEL) {
-                    mKeyguardBottomArea.expand(false);
                     mKeyguardBottomArea.setBackground(null);
                 }
 
@@ -999,7 +998,6 @@ public class NotificationPanelView extends PanelView implements
 
         int action = event.getActionMasked();
         if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
-            mKeyguardBottomArea.expand(false);
             mKeyguardBottomArea.setBackground(null);
         }
 
@@ -2348,6 +2346,7 @@ public class NotificationPanelView extends PanelView implements
 
     @Override
     protected void startUnlockHintAnimation() {
+        mKeyguardBottomArea.expand(true);
         super.startUnlockHintAnimation();
         startHighlightIconAnimation(getCenterIcon());
     }
