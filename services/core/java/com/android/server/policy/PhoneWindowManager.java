@@ -90,8 +90,6 @@ import android.service.gesture.EdgeGestureManager;
 import com.android.internal.os.DeviceKeyHandler;
 
 import com.android.internal.util.cm.ActionUtils;
-
-import cyanogenmod.hardware.CMHardwareManager;
 import cyanogenmod.providers.CMSettings;
 import dalvik.system.DexClassLoader;
 import android.text.Html;
@@ -1838,6 +1836,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mOrientationListener.setCurrentRotation(windowManager.getRotation());
         } catch (RemoteException ex) { }
         mSettingsObserver = new SettingsObserver(mHandler);
+        mSettingsObserver.observe();
         mShortcutManager = new ShortcutManager(context);
         mUiMode = context.getResources().getInteger(
                 com.android.internal.R.integer.config_defaultUiModeType);
@@ -2304,9 +2303,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
         } else {
             mHasNavigationBar = hasNavigationBar == 1;
-        }
-        if (mCMHardware.isSupported(CMHardwareManager.FEATURE_KEY_DISABLE)) {
-            mCMHardware.set(CMHardwareManager.FEATURE_KEY_DISABLE, mHasNavigationBar);
         }
     }
 
