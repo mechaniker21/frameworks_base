@@ -219,9 +219,6 @@ public class NavigationBarView extends LinearLayout {
     private final OnTouchListener mNavButtonsTouchListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-                if (mDoubleTapToSleep) {
-                    mDoubleTapGesture.onTouchEvent(event);
-                }
                 onNavButtonTouched();
             return true;
         }
@@ -1060,6 +1057,13 @@ public class NavigationBarView extends LinearLayout {
             mDoubleTapToSleep = (Settings.System.getIntForUser(resolver,
                     Settings.System.DOUBLE_TAP_SLEEP_NAVBAR, 0,
                     UserHandle.USER_CURRENT) == 1);
+            // reset saved side button visibilities
+            for (int i = 0; i < mSideButtonVisibilities.length; i++) {
+                for (int j = 0; j < mSideButtonVisibilities[i].length; j++) {
+                    mSideButtonVisibilities[i][j] = -1;
+                }
+            }
+            setNavigationIconHints(mNavigationIconHints, true);
             onNavButtonTouched();
             mDoubleTapToSleep = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.DOUBLE_TAP_SLEEP_NAVBAR, 0, UserHandle.USER_CURRENT) != 0;
