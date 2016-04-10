@@ -144,8 +144,6 @@ public class NavigationBarView extends LinearLayout {
     private OnTouchListener mHomeSearchActionListener;
     private OnLongClickListener mRecentsBackListener;
     private OnLongClickListener mLongPressHomeListener;
-    private OnClickListener mNotificationsClickListener;
-    private OnLongClickListener mNotificationsLongListener;
 
     private SettingsObserver mSettingsObserver;
     private boolean mShowDpadArrowKeys;
@@ -574,7 +572,6 @@ public class NavigationBarView extends LinearLayout {
         setButtonWithTagVisibility(NavbarEditor.NAVBAR_HOME, !disableHome);
         setButtonWithTagVisibility(NavbarEditor.NAVBAR_RECENT, !disableRecent);
         setButtonWithTagVisibility(NavbarEditor.NAVBAR_POWER, !disableRecent);
-        setButtonWithTagVisibility(NavbarEditor.NAVBAR_NOTIFICATIONS, !disableRecent);
         setButtonWithTagVisibility(NavbarEditor.NAVBAR_SEARCH, !disableSearch);
     }
 
@@ -672,7 +669,6 @@ public class NavigationBarView extends LinearLayout {
         setButtonWithTagVisibility(NavbarEditor.NAVBAR_CONDITIONAL_MENU, shouldShow);
         setButtonWithTagVisibility(NavbarEditor.NAVBAR_SEARCH, shouldShowAlwaysMenu);
         setButtonWithTagVisibility(NavbarEditor.NAVBAR_POWER, shouldShowAlwaysMenu);
-        setButtonWithTagVisibility(NavbarEditor.NAVBAR_NOTIFICATIONS, shouldShowAlwaysMenu);
     }
 
     @Override
@@ -896,15 +892,12 @@ public class NavigationBarView extends LinearLayout {
 
     void setListeners(OnClickListener recentsClickListener, OnTouchListener recentsPreloadListener,
                       OnLongClickListener recentsBackListener, OnTouchListener homeSearchActionListener,
-                      OnLongClickListener longPressHomeListener, OnClickListener notificationsClickListener,
-                      OnLongClickListener notificationsLongListener) {
+                      OnLongClickListener longPressHomeListener) {
         mRecentsClickListener = recentsClickListener;
         mRecentsPreloadListener = recentsPreloadListener;
         mHomeSearchActionListener = homeSearchActionListener;
         mRecentsBackListener = recentsBackListener;
         mLongPressHomeListener = longPressHomeListener;
-        mNotificationsClickListener = notificationsClickListener;
-        mNotificationsLongListener = notificationsLongListener;
         updateButtonListeners();
     }
 
@@ -945,12 +938,6 @@ public class NavigationBarView extends LinearLayout {
         if (powerView != null) {
             powerView.setLongClickable(true);
             powerView.setOnLongClickListener(mPowerListener);
-        }
-        View notificationsView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_NOTIFICATIONS);
-        if (notificationsView != null) {
-            notificationsView.setOnClickListener(mNotificationsClickListener);
-            notificationsView.setLongClickable(true);
-            notificationsView.setOnLongClickListener(mNotificationsLongListener);
         }
     }
 
