@@ -34,7 +34,6 @@ import android.database.ContentObserver;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
@@ -45,6 +44,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.inputmethod.InputMethodManager;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -53,17 +53,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewRootImpl;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.systemui.R;
+import com.android.systemui.cm.UserContentObserver;
 import com.android.systemui.statusbar.policy.DeadZone;
 import com.android.systemui.statusbar.policy.KeyButtonView;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import cyanogenmod.providers.CMSettings;
 
@@ -240,8 +241,7 @@ public class NavigationBarView extends LinearLayout {
         mBarTransitions = new NavigationBarTransitions(this);
 
         mNavBarReceiver = new NavBarReceiver();
-        getContext().registerReceiverAsUser(mNavBarReceiver, UserHandle.ALL,
-                new IntentFilter(NAVBAR_EDIT_ACTION), null, null);
+        getContext().registerReceiver(mNavBarReceiver, new IntentFilter(NAVBAR_EDIT_ACTION));
         mSettingsObserver = new SettingsObserver(new Handler());
 
         mDoubleTapGesture = new GestureDetector(mContext,
@@ -453,19 +453,6 @@ public class NavigationBarView extends LinearLayout {
                     six.setVisibility(getSideButtonVisibility(false));
                     setSideButtonVisibility(false, -1);
                 }
-            }
-        } else {
-            setVisibleOrGone(getCurrentView().findViewById(R.id.dpad_left), false);
-            setVisibleOrGone(getCurrentView().findViewById(R.id.dpad_right), false);
-            View one = getCurrentView().findViewById(mVertical ? R.id.six : R.id.one);
-            View six = getCurrentView().findViewById(mVertical ? R.id.one : R.id.six);
-            if (getSideButtonVisibility(true) != -1) {
-                one.setVisibility(getSideButtonVisibility(true));
-                setSideButtonVisibility(true, - 1);
-            }
-            if (getSideButtonVisibility(false) != -1) {
-                six.setVisibility(getSideButtonVisibility(false));
-                setSideButtonVisibility(false, -1);
             }
         }
     }
@@ -928,17 +915,19 @@ public class NavigationBarView extends LinearLayout {
         mEditBar.updateKeys();
         removeButtonListeners();
         updateButtonListeners();
-        updateShowDpadKeys();
+        setDisabledFlags(mDisabledFlags, true /* force */);
         setMenuVisibility(mShowMenu, true);
     }
 
-    private class SettingsObserver extends ContentObserver {
+    private class SettingsObserver extends UserContentObserver {
 
         SettingsObserver(Handler handler) {
             super(handler);
         }
 
+        @Override
         public void observe() {
+            super.observe();
             ContentResolver resolver = getContext().getContentResolver();
             resolver.registerContentObserver(
                     CMSettings.System.getUriFor(CMSettings.System.NAVIGATION_BAR_MENU_ARROW_KEYS),
@@ -951,15 +940,13 @@ public class NavigationBarView extends LinearLayout {
             onChange(false);
         }
 
+        @Override
         public void unobserve() {
+            super.unobserve();
             getContext().getContentResolver().unregisterContentObserver(this);
         }
 
-        public void onChange(boolean selfChange, Uri uri) {
-            super.onChange(selfChange, uri);
-            updateShowDpadKeys();
-        }
-
+        @Override
         protected void update() {
             mShowDpadArrowKeys = CMSettings.System.getIntForUser(getContext().getContentResolver(),
                     CMSettings.System.NAVIGATION_BAR_MENU_ARROW_KEYS, 0, UserHandle.USER_CURRENT) != 0;
@@ -975,9 +962,4 @@ public class NavigationBarView extends LinearLayout {
         }
     }
 
-    private void updateShowDpadKeys() {
-        mShowDpadArrowKeys = CMSettings.System.getIntForUser(getContext().getContentResolver(),
-                CMSettings.System.NAVIGATION_BAR_MENU_ARROW_KEYS, 0, UserHandle.USER_CURRENT) != 0;
-        setNavigationIconHints(mNavigationIconHints, true);
-    }
 }
