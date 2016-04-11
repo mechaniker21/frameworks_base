@@ -57,4 +57,9 @@
     <string name="tasklist_killall">Kill All</string>
     <string name="tasklist_memory_usage">"Free/Total Memory: <xliff:g id="number">%s</xliff:g> / <xliff:g id="name">%s</xliff:g>"</string>
     <string name="message_keep_one_launcher">Should keep at lease one home activity!</string>
+
+    <!-- NavBar tile -->
+    <string name="quick_settings_navbar_title">NavBar</string>
+    <string name="quick_settings_navbar_on">NavBar on</string>
+    <string name="quick_settings_navbar_off">NavBar off</string>
 </resources>
