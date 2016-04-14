@@ -376,7 +376,7 @@ public class KeyguardStatusView extends GridLayout implements
             mAlarmStatusView.setVisibility(View.VISIBLE);
         } else {
             mAlarmStatusView = (TextView) findViewById(R.id.alarm_status);
-            mAlarmStatusView.setVisibility(View.GONE);
+            mAlarmStatusView.setVisibility(View.INVISIBLE);
         }
 
         if (mIconNameValue != iconNameValue) {
