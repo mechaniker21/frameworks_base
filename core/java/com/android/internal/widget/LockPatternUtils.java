@@ -1138,8 +1138,8 @@ public class LockPatternUtils {
      * @param pattern The current lockscreen pattern
      * @return Whether the lockscreen pattern was correct.
      */
-    public void replaceSeparateEncryptionPasswordWithPattern(List<LockPatternView.Cell> pattern) {
-        String stringPattern = patternToString(pattern);
+    public void replaceSeparateEncryptionPasswordWithPattern(List<LockPatternView.Cell> pattern, int userId) {
+        String stringPattern = patternToString(pattern, userId);
         updateEncryptionPassword(StorageManager.CRYPT_TYPE_PATTERN, stringPattern);
         setSeparateEncryptionPasswordEnabled(false);
     }
