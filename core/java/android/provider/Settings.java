@@ -3821,6 +3821,12 @@ public final class Settings {
         public static final String SHOW_FOURG = "show_fourg";
 
         /**
+         * whether to enable /disable showing charging current on lockscreen
+         * @hide
+         */
+        public static final String LOCK_SCREEN_SHOW_CURRENT = "lock_screen_show_current";
+
+        /**
          * Toast animations
          *
          * @hide
