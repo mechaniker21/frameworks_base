@@ -371,13 +371,8 @@ public class KeyguardStatusView extends GridLayout implements
             mWeatherTimestamp.setTextColor(secondaryTextColor);
         }
 
-        if (showAlarm && nextAlarm != null) {
-            mAlarmStatusView = (TextView) findViewById(R.id.alarm_status);
-            mAlarmStatusView.setVisibility(View.VISIBLE);
-        } else {
-            mAlarmStatusView = (TextView) findViewById(R.id.alarm_status);
-            mAlarmStatusView.setVisibility(View.INVISIBLE);
-        }
+        mAlarmStatusView = (TextView) findViewById(R.id.alarm_status);
+        mAlarmStatusView.setVisibility(showAlarm && nextAlarm != null ? View.VISIBLE : View.GONE);
 
         if (mIconNameValue != iconNameValue) {
             mIconNameValue = iconNameValue;
