@@ -32,6 +32,7 @@ LOCAL_RESOURCE_DIR := \
     packages/apps/DUI/res
 
 LOCAL_AAPT_FLAGS := --auto-add-overlay --extra-packages com.android.keyguard
+LOCAL_AAPT_FLAGS += --extra-packages com.android.cards
 
 ifneq ($(SYSTEM_UI_INCREMENTAL_BUILDS),)
     LOCAL_PROGUARD_ENABLED := disabled
