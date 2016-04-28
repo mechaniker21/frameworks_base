@@ -3913,6 +3913,12 @@ public final class Settings {
          * @hide
          */
         public static final String PULSE_CUSTOM_DIMEN = "pulse_custom_dimen";
+                        
+        /**
+         * Custom Spacing Between Pulse Bars
+         * @hide
+         */
+        public static final String PULSE_CUSTOM_DIV = "pulse_custom_div";
         
         /**
          * Whether to display app circle sidebar
