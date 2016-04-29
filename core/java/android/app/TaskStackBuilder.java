@@ -80,6 +80,9 @@ public class TaskStackBuilder {
         return new TaskStackBuilder(context);
     }
 
+    /**
+     * @hide
+     */
     public void setTaskOnHome(boolean firstTaskOnHome) {
         mFirstTaskOnHome = firstTaskOnHome;
     }

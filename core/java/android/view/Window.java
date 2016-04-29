@@ -206,6 +206,7 @@ public abstract class Window {
 
     private boolean mDestroyed;
 
+    /** @hide */
     public boolean mIsFloatingWindow = false;
 
     // The current window attributes.

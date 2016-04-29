@@ -859,7 +859,10 @@ public class Activity extends ContextThemeWrapper
     private int mAppFloatViewHeight;
     private boolean mChangedFlags = false;
     private boolean isAlreadyAttachToWindow = false;
+
+    /** @hide */
     public boolean mIsFullscreenApp = false;
+
     private ScaleGestureDetector mScaleGestureDetector;
     private FloatingWindowView mFloatingWindowView;
 
@@ -5689,6 +5692,9 @@ public class Activity extends ContextThemeWrapper
         }
     }
 
+    /**
+     * @hide
+     */
     public void finishFloating() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         mMainThread.performFinishFloating();
