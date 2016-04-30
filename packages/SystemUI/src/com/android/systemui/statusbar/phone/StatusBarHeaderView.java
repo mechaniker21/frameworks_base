@@ -56,8 +56,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.systemui.statusbar.policy.WeatherController;
-import com.android.systemui.statusbar.policy.WeatherControllerImpl;
+import com.android.internal.utils.emotion.WeatherController;
+import com.android.internal.utils.emotion.WeatherControllerImpl;
 
 import com.android.keyguard.KeyguardStatusView;
 import com.android.systemui.BatteryLevelTextView;
