@@ -48,6 +48,8 @@ import com.android.internal.utils.emotion.WeatherControllerImpl;
 import com.android.internal.util.slim.ImageHelper;
 import com.android.internal.widget.LockPatternUtils;
 
+import cyanogenmod.weather.util.WeatherUtils;
+
 import java.util.Date;
 import java.util.Locale;
 
@@ -258,7 +260,7 @@ public class KeyguardStatusView extends GridLayout implements
 
     @Override
     public void onWeatherChanged(WeatherController.WeatherInfo info) {
-        if (info.temp == null || info.condition == null) {
+        if (Double.isNaN(info.temp) || info.condition == null) {
             mWeatherCity.setText("--");
             mWeatherConditionDrawable = null;
             mWeatherCurrentTemp.setText(null);
@@ -272,7 +274,7 @@ public class KeyguardStatusView extends GridLayout implements
                 mWeatherCity.setText(info.city);
             }
             if (mWeatherCurrentTemp != null) {
-                mWeatherCurrentTemp.setText(info.temp);
+                mWeatherCurrentTemp.setText(WeatherUtils.formatTemperature(info.temp, info.tempUnit));
             }
             if (mWeatherConditionText != null) {
                 mWeatherConditionText.setText(info.condition);
