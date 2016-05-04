@@ -57,7 +57,7 @@ import com.android.internal.widget.ToolbarWidgetWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.android.internal.util.temasek.FontHelper;
+import com.android.internal.util.aokp.FontHelper;
 
 /**
  * A standard toolbar for use within application content.
@@ -2062,6 +2062,7 @@ public class Toolbar extends ViewGroup {
         }
     }
 
+    /** @hide */
     public void updateTextColor() {
         final boolean mCustomDashBoard = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.DASHBOARD_CUSTOMIZATIONS, 0) == 1;
@@ -2077,6 +2078,7 @@ public class Toolbar extends ViewGroup {
         }
     }
 
+    /** @hide */
     public void updateFontStyle() {
         final int mMasterFontStyle = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.DASHBOARD_FONT_STYLE, FontHelper.FONT_NORMAL);
@@ -2084,6 +2086,7 @@ public class Toolbar extends ViewGroup {
         getFontStyle(mMasterFontStyle);
     }
 
+    /** @hide */
     public void getFontStyle(int font) {
         switch (font) {
             case FontHelper.FONT_NORMAL:
