@@ -773,20 +773,17 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             updateTempView();
         }
     }
-
+    
+    public void setStatusBarViewVisibility(boolean visible) {
+        mStatusBarView.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+    }
+    
     private void updateWeatherTextState(String temp, int color, int size, int font) {
         if (mWeatherTempState == 0 || TextUtils.isEmpty(temp)) {
             mWeatherTempView.setVisibility(View.GONE);
             return;
-
-    public void setStatusBarViewVisibility(boolean visible) {
-        mStatusBarView.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     }
 
-    class DevForceNavbarObserver extends UserContentObserver {
-        DevForceNavbarObserver(Handler handler) {
-            super(handler);
-        }
         if (mWeatherTempState == 1) {
             SpannableString span = new SpannableString(temp);
             span.setSpan(new RelativeSizeSpan(0.7f), temp.length() - 1, temp.length(), 0);
