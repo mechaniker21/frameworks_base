@@ -226,7 +226,7 @@ public class KeyguardIndicationController {
         String chargingCurrent = "";
 
         if (mChargingCurrent != 0) {
-            chargingCurrent = "\n" + (mChargingCurrent / 1000) + "mA/h";
+            chargingCurrent = "\n" + mChargingCurrent + "mA/h";
         }
 	mShowcurrent = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.LOCK_SCREEN_SHOW_CURRENT, 0) == 1;
