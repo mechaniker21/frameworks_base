@@ -687,11 +687,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             mContext.getContentResolver(),
                             Settings.System.SHOW_FOURG,
                             0, UserHandle.USER_CURRENT) == 1;
-                    recreateStatusBar();
-                    updateRowStates();
-                    updateSpeedbump();
-                    updateClearAll();
-                    updateEmptyShadeView();
+                            DontStressOnRecreate();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.USE_SLIM_RECENTS))) {
                     updateRecents();
@@ -4302,6 +4298,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         final boolean updateNavBar = shouldUpdateNavbar(mCurrentTheme, newTheme);
         if (newTheme != null) mCurrentTheme = (ThemeConfig) newTheme.clone();
         if (updateStatusBar) {
+            DontStressOnRecreate();
             if (mNavigationBarView != null) {
                 mNavigationBarView.onRecreateStatusbar();
             }
@@ -4327,6 +4324,19 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mNavigationController.updateNavbarOverlay(getNavbarThemedResources());
         }
     }
+
+    private void DontStressOnRecreate() {
+        recreateStatusBar();
+        updateRowStates();
+        updateSpeedbump();
+        checkBarModes();
+        updateClearAll();
+        updateEmptyShadeView();
+        mDeviceInteractive = true;
+        mStackScroller.setAnimationsEnabled(true);
+        mNotificationPanel.setTouchDisabled(false);
+        updateVisibleToUser();
+    }   
 
     /**
      * Determines if we need to recreate the status bar due to a theme change.  We currently
