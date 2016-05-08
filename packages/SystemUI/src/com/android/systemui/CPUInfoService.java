@@ -264,8 +264,8 @@ public class CPUInfoService extends Service {
             mInterrupt = true;
         }
 
-        private String toKHz(String mhzString) {
-            return new StringBuilder().append(Integer.valueOf(mhzString) / 1000).append(" KHz").toString();
+        private String toMHz(String mhzString) {
+            return new StringBuilder().append(Integer.valueOf(mhzString) / 1000000).append(" MHz").toString();
         }
 
         @Override
@@ -297,7 +297,7 @@ public class CPUInfoService extends Service {
                         gpuFreq = CPUInfoService.readOneLine(GPU_FREQ_5);
                     }
 */
-                    sb.append(gpuFreq == null?"0":toKHz(gpuFreq));
+                    sb.append(gpuFreq == null?"0":toMHz(gpuFreq));
                     sb.append(";");
 
                     for(int i=0; i<mNumCpus; i++){
