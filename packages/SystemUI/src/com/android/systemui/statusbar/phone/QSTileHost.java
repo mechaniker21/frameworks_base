@@ -67,6 +67,7 @@ import com.android.systemui.qs.tiles.RotationLockTile;
 import com.android.systemui.qs.tiles.SleepScreenTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.ScreenshotTile;
+import com.android.systemui.qs.tiles.Viper4AndroidTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
 import com.android.systemui.qs.tiles.SyncTile;
 import com.android.systemui.qs.tiles.ThemesTile;
@@ -387,6 +388,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("float_mode")) return new FloatingWindowsTile(this);
         else if (tileSpec.equals("themes")) return new ThemesTile(this);
         else if (tileSpec.equals("kernel")) return new KernelAdiutorTile(this);
+        else if (tileSpec.equals("v4a")) return  new Viper4AndroidTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else if (TextUtils.split(tileSpec, "\\|").length == 3) {
             /** restores placeholder for
