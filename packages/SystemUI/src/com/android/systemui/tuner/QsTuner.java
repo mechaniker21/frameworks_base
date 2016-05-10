@@ -159,6 +159,11 @@ public class QsTuner extends Fragment implements Callback {
     public void resetTiles() {
     }
 
+    private static int getLabelResource(String spec) {
+        if (spec.equals("v4a")) return R.string.quick_settings_v4a_label;
+        return 0;
+    }
+
     private static class CustomHost extends QSTileHost {
 
         public CustomHost(Context context) {
@@ -308,6 +313,7 @@ public class QsTuner extends Fragment implements Callback {
             else if (mSpec.equals("cast")) return R.drawable.ic_qs_cast_on;
             else if (mSpec.equals("hotspot")) return R.drawable.ic_hotspot_enable;
             else if (mSpec.equals("adb_network")) return R.drawable.ic_qs_network_adb_on;
+            else if (mSpec.equals("v4a")) return R.drawable.ic_qs_v4a;
             return R.drawable.android;
         }
 
