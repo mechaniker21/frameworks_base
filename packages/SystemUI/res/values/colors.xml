@@ -144,4 +144,11 @@
     <color name="volume_icon_color">#ffffffff</color>
     <color name="volume_settings_icon_color">#7fffffff</color>
     <color name="volume_slider_inactive">#FFB0BEC5</color><!-- blue grey 200 -->
+
+    <!-- No recents logo and text colors --> 
+    <color name="no_recents_one">#5affffff</color>
+    <color name="no_recents_two">#5affffff</color>
+    <color name="no_recents_three">#5affffff</color>
+    <color name="no_recents_text_color">#b2ffffff</color>
+
 </resources>
