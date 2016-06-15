@@ -4077,6 +4077,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mIconController.updateResources();
         mScreenPinningRequest.onConfigurationChanged();
         mNetworkController.onConfigurationChanged();
+        mStatusBarWindowManager.onConfigurationChanged(newConfig);
     }
 
     @Override
