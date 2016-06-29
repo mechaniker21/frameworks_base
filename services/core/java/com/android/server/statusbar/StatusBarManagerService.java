@@ -585,6 +585,9 @@ public class StatusBarManagerService extends IStatusBarService.Stub {
         if (mBar != null) {
             try {
                 mBar.showCustomIntentAfterKeyguard(intent);
+            } catch (RemoteException ex) {}
+        }
+    }
     public void toggleLastApp() {
         if (mBar != null) {
             try {
@@ -615,6 +618,8 @@ public class StatusBarManagerService extends IStatusBarService.Stub {
                 mBar.screenPinningStateChanged(enabled);
             } catch (RemoteException ex) {
             }
+        }
+    }
     @Override
     public void toggleScreenshot() {
         if (mBar != null) {

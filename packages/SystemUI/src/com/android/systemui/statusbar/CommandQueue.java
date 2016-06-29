@@ -481,11 +481,9 @@ public class CommandQueue extends IStatusBar.Stub {
                 case MSG_SET_AUTOROTATE_STATUS:
                     mCallbacks.setAutoRotate(msg.arg1 != 0);
                     break;
-				case MSG_START_CUSTOM_INTENT_AFTER_KEYGUARD:
+		case MSG_START_CUSTOM_INTENT_AFTER_KEYGUARD:
                     mCallbacks.showCustomIntentAfterKeyguard((Intent) msg.obj);
                     break;	
-                case MSG_SCREEN_PINNING_STATE_CHANGED:
-                    mCallbacks.screenPinningStateChanged(msg.arg1 != 0);
                 case MSG_TOGGLE_LAST_APP:
                     mCallbacks.toggleLastApp();
                     break;
