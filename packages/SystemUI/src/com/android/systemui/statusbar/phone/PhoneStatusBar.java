@@ -5390,6 +5390,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (mQSTileHost.isEditing()) {
             mQSTileHost.setEditing(false);
         }
+        if (mStatusBarView != null && mStatusBarView.shouldEnableSwift())
+            mStatusBarView.clearSwiftHandlerCallbacks();
         if (mLaunchCameraOnFinishedGoingToSleep) {
             mLaunchCameraOnFinishedGoingToSleep = false;
 
@@ -5409,6 +5411,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mStackScroller.setAnimationsEnabled(true);
         mNotificationPanel.setTouchDisabled(false);
         updateVisibleToUser();
+        if (mStatusBarView != null && mStatusBarView.shouldEnableSwift())
+            mStatusBarView.initSwiftHandlerCallbacks();
     }
 
     public void onScreenTurningOn() {
