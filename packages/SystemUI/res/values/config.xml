@@ -307,4 +307,7 @@
     <integer name="quick_settings_onthego_dialog_short_timeout">3000</integer>
     <integer name="quick_settings_onthego_dialog_long_timeout">6000</integer>
 
+    <!-- Allow device to be configured to show screen on hints on the lock screen -->
+    <bool name="config_showScreenOnLockScreenHints">false</bool>
+
 </resources>
