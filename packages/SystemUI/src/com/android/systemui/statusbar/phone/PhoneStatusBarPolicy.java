@@ -136,7 +136,6 @@ public class PhoneStatusBarPolicy implements Callback {
             else if (action.equals(TelecomManager.ACTION_CURRENT_TTY_MODE_CHANGED)) {
                 updateTTY(intent);
             }
-<<<<<<< HEAD
             else if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
                 updateHeadset(intent);
             }
