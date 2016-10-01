@@ -3885,6 +3885,12 @@ public final class Settings {
         public static final String ANIMATION_CONTROLS_REVERSE_EXIT = "animation_controls_reverse_exit";
 
         /**
+         * whether to enable torch on lockscreen
+         * @hide
+         */
+        public static final String KEYGUARD_TOGGLE_TORCH = "keyguard_toggle_torch";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -6666,6 +6672,7 @@ public final class Settings {
         public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
 
         /**
+<<<<<<< HEAD
          * Whether or not the automatic storage manager is enabled and should run on the device.
          *
          * @hide
@@ -6727,6 +6734,8 @@ public final class Settings {
                 = "demo_user_setup_complete";
 
         /**
+=======
+>>>>>>> 3b967d5... Longpress power lockscreen torch [1/2]
          * Whether to use one tap tile action to enable or disable data
          * @hide
          */
