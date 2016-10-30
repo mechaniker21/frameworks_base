@@ -3781,6 +3781,13 @@ public final class Settings {
         public static final String QS_SHOW_BRIGHTNESS_SLIDER = "qs_show_brightness_slider";
 
         /**
+         * Whether to show the negociated charger current in the lockscreen
+         * @hide
+         */
+        public static final String LOCKSCREEN_CHARGING_CURRENT = "lockscreen_charging_current";
+
+
+        /**
          * Whether to disable showing arrows in network traffic indicators
          * @hide
          */
