@@ -2262,7 +2262,7 @@ public class BackupManagerService {
                     agent = mConnectedAgent;
                 }
             }
-        } catch (RemoteException e) {
+         catch (RemoteException e) {
                 // can't happen - ActivityManager is local
         } finally {
             // failed to bind backup agent, clear pending backup
@@ -2274,7 +2274,7 @@ public class BackupManagerService {
                 }
             }
         }
-        return agent;
+        return agent;}
     }
 
     // clear an application's data, blocking until the operation completes or times out
